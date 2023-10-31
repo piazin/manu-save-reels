@@ -43,7 +43,7 @@ export function SearchSection() {
 
   async function onSubmit({ reelsUrl }: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    const res = await fetch("http://localhost:3000/reels", {
+    const res = await fetch("https://insta-save-api.onrender.com/reels", {
       method: "POST",
       body: JSON.stringify({ reelsUrl }),
       headers: {
