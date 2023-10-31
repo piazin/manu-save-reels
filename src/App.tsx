@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Header />
-      <main className="min-h-[80vh] bg-slate-50 flex items-center justify-center p-8">
+      <main className="min-h-[80vh] bg-slate-50 dark:bg-zinc-950 flex items-center justify-center p-8">
         <SearchSection />
       </main>
       <Footer />

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -13,7 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Loader2 } from "lucide-react";
+import { DownloadButton } from "@/components/interface/DownloadButton";
 
 interface Response {
   reelsLink: {
@@ -70,7 +69,11 @@ export function SearchSection() {
               <FormItem className="w-full">
                 <FormLabel>Vídeo Url</FormLabel>
                 <FormControl>
-                  <Input placeholder="cole aqui" {...field} />
+                  <Input
+                    placeholder="cole aqui"
+                    {...field}
+                    className="dark:bg-white"
+                  />
                 </FormControl>
                 <FormDescription>
                   cole o link do video que deseja baixar
@@ -79,19 +82,7 @@ export function SearchSection() {
               </FormItem>
             )}
           />
-          <Button
-            className="bg-pink-600 hover:bg-pink-600/70"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Baixando
-              </>
-            ) : (
-              <>Baixar reels</>
-            )}
-          </Button>
+          <DownloadButton isLoading={isLoading} />
         </form>
       </Form>
       <iframe
