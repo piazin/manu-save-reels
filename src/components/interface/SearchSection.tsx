@@ -72,7 +72,7 @@ export function SearchSection() {
                   <Input
                     placeholder="cole aqui"
                     {...field}
-                    className="dark:bg-white"
+                    className="dark:bg-white text-slate-950"
                   />
                 </FormControl>
                 <FormDescription>
