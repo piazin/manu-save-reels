@@ -1,5 +1,12 @@
 import { useState } from "react";
 
+interface Response {
+  reels: {
+    reelsUrl: string;
+    thumbnailLink: string;
+  };
+}
+
 export const useReels = () => {
   const [reelsLink, setReelsLink] = useState<Response | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
