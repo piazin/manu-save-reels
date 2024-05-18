@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Moon } from "lucide-react";
+import { Button } from "@/components/interface/Button";
 import { useTheme } from "@/components/theme-provider";
 
 export function Header() {
@@ -10,12 +10,13 @@ export function Header() {
       <h1 className="font-semibold">
         <span className="text-pink-600 text-xl font-bold">Manu</span> Save Reels
       </h1>
-      <Button
+
+      <Button.Root
         className="bg-slate-200/50 hover:bg-slate-200 dark:bg-slate-200 dark:hover:bg-slate-300"
         onClick={() => setTheme(theme == "dark" ? "light" : "dark")}
       >
         <Moon className="h-4 w-4" color="#db2777" />
-      </Button>
+      </Button.Root>
     </header>
   );
 }

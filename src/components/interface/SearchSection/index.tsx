@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -12,14 +11,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { DownloadButton } from "@/components/interface/DownloadButton";
-
-interface Response {
-  reelsLink: {
-    download_link: string;
-    thumbnail_link: string;
-  };
-}
+import { Button } from "@/components/interface/Button";
+import { useReels } from "./use-reels";
 
 const formSchema = z.object({
   reelsUrl: z
@@ -30,8 +23,7 @@ const formSchema = z.object({
 });
 
 export function SearchSection() {
-  const [reelsLink, setReelsLink] = useState<Response>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { fetchReel, isLoading, reelsLink } = useReels();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,26 +32,14 @@ export function SearchSection() {
     },
   });
 
-  async function onSubmit({ reelsUrl }: z.infer<typeof formSchema>) {
-    setIsLoading(true);
-    const res = await fetch("https://insta-save-api.onrender.com/reels", {
-      method: "POST",
-      body: JSON.stringify({ reelsUrl }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = (await res.json()) as Response;
-    setReelsLink(data);
-    setIsLoading(false);
-  }
-
   return (
     <div className="w-[666px] h-[666px] flex items-center justify-center">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(async (data) => {
+            await fetchReel(data.reelsUrl);
+            form.resetField("reelsUrl");
+          })}
           className="w-full space-y-8"
         >
           <FormField
@@ -67,10 +47,10 @@ export function SearchSection() {
             name="reelsUrl"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Vídeo Url</FormLabel>
+                <FormLabel>Url do Vídeo</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="cole aqui"
+                    placeholder="url"
                     {...field}
                     className="dark:bg-white text-slate-950"
                   />
@@ -82,12 +62,23 @@ export function SearchSection() {
               </FormItem>
             )}
           />
-          <DownloadButton isLoading={isLoading} />
+
+          <Button.Root disabled={isLoading}>
+            {isLoading ? (
+              <Button.Loader>Baixando</Button.Loader>
+            ) : (
+              <Button.Label>Baixar</Button.Label>
+            )}
+          </Button.Root>
         </form>
       </Form>
+
       <iframe
         className="hidden"
-        src={reelsLink?.reelsLink.download_link}
+        src={
+          //@ts-ignore
+          reelsLink?.reels.reelsUrl
+        }
       ></iframe>
     </div>
   );
