@@ -77,7 +77,7 @@ export function SearchSection() {
         className="hidden"
         src={
           //@ts-ignore
-          reelsLink?.reels.reelsUrl
+          reelsLink?.reels.downloadLink
         }
       ></iframe>
     </div>

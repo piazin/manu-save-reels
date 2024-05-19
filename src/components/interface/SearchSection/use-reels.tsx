@@ -2,7 +2,7 @@ import { useState } from "react";
 
 interface Response {
   reels: {
-    reelsUrl: string;
+    downloadLink: string;
     thumbnailLink: string;
   };
 }
